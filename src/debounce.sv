@@ -13,7 +13,8 @@ always @(posedge clk) begin
     if(btn) begin
         //I should try a threshold between 10-20 ms.
         //10ms = 250000 and 20ms = 500000. 
-        if(count < 20) begin    //use 20 for simulation            count <= count + 1;
+        if(count < 20) begin    //use 20 for simulation            
+            count <= count + 1;
         end
         else begin
             out <= 1;
