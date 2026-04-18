@@ -1,6 +1,8 @@
 `include "src/top.sv"
 `include "src/toggle.sv"
 `include "src/debounce.sv"
+`include "src/dutyCycle.sv"
+`include "src/decoder.sv"
 `timescale 1ns/1ps         // Set tick to 1ns. Set sim resolution to 1ps.
 
 
@@ -9,7 +11,7 @@ module top_tb;
 /** declare tb signals below */
 logic clk_tb;
 logic btn;
-logic led;
+logic [6:0] seg7;
 
 /** declare module(s) below */
 top dut                    // declare an inst of top called "dut" (device under test)
@@ -17,10 +19,10 @@ top dut                    // declare an inst of top called "dut" (device under 
     /** hook up tb signals to dut signals */
     .clk(clk_tb),           // connect dut's clk wire to clk_tb
     .btn(btn),
-    .led(led)
+    .seg7(seg7)
 );
 
-localparam CLK_PERIOD = 5; /** clk period */
+localparam CLK_PERIOD = 10; /** clk period */
 always #(CLK_PERIOD/2) clk_tb=~clk_tb;          // toggle clk_tb every #(CLK_PERIOD/2) ticks
 
 initial begin
@@ -28,16 +30,16 @@ initial begin
     $dumpvars(0, top_tb.dut);       // capture all signals under top_tb
 end
 
-//here we will be simulating our button press (exercsie 1 and 2) with a task
+//Use exercise 1 and 2 tb task to test exercsie 1-4
 task btn_w_debounce();
     begin
         //rapid toggling
         repeat (6) begin
             btn = 1;
-            #10;
+            #1000;
 
             btn = 0;
-            #10;
+            #1000;
         end
 
         btn = 1;
@@ -46,16 +48,17 @@ task btn_w_debounce();
         //release 
         repeat (6) begin
             btn = 0;
-            #10;
+            #1000;
 
             btn = 1;
-            #10;
+            #1000;
         end
 
         btn = 0;
         #100;
     end
 endtask
+
 
 initial begin
     /** testbench logic goes below */
@@ -65,6 +68,9 @@ initial begin
     #20;
 
     //press the button multiple times to test it
+    btn_w_debounce;
+    btn_w_debounce;
+    btn_w_debounce;
     btn_w_debounce;
     btn_w_debounce;
     btn_w_debounce;
