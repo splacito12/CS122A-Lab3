@@ -4,8 +4,8 @@ module dutyCycle(
     output logic [3:0] duty_cycle
 );
 
-typedef enum logic [1:0] {btn_press, release} state_t;
-state_t state = off;
+typedef enum logic [1:0] {btn_press, btn_release} state_t;
+state_t state = btn_press;
 
 //we need to initialize our duty_cycle
 initial duty_cycle = 0;
@@ -20,10 +20,10 @@ always @(posedge clk) begin
                 else begin
                     duty_cycle <= duty_cycle + 1;
                 end
-                state <= release;
+                state <= btn_release;
             end
         end
-        release: begin
+        btn_release: begin
             if(!btn) begin
                 state <= btn_press;
             end
