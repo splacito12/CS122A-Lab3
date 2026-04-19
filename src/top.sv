@@ -3,11 +3,13 @@ module top (
     input logic clk,
     input logic right_btn,
     input logic left_btn,
+    input logic switch,
     
     /** Output Ports */
     output logic [6:0] seg7,
     output logic red_led,
-    output logic blue_led
+    output logic blue_led,
+    output logic dp
 );
 
 /** Logic */
@@ -15,6 +17,7 @@ logic debounced_Rbtn;
 logic debounced_Lbtn;
 logic [3:0] duty1;   //has to match our bcd
 logic [3:0] duty2;
+logic [3:0] led_val;
 
 //instantiate the modules
 debounce debounce_Rinst(
@@ -47,11 +50,6 @@ dutyCycle dutyCycle_inst2(
     .duty_cycle(duty2)
 );
 
-decoder decoder_inst(
-    .bcd(duty1),
-    .seg7(seg7)
-);
-
 pwm pwm_inst1(
     .clk(clk),
     .duty_cycle(duty1),
@@ -60,8 +58,25 @@ pwm pwm_inst1(
 
 pwm pwm_inst2(
     .clk(clk),
-    .duty_cycle(duty1),
+    .duty_cycle(duty2),
     .led(blue_led)
 );
+
+//here is the logic behind switching the seg7 
+always_comb begin
+    if(switch) begin
+        led_val = duty1;
+    end
+    else begin
+        led_val = duty2;
+    end
+end
+
+decoder decoder_inst(
+    .bcd(led_val),
+    .seg7(seg7)
+);
+
+assign dp = switch;
 
 endmodule

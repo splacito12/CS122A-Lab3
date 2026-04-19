@@ -16,6 +16,8 @@ logic left_btn;
 logic red_led;
 logic blue_led;
 logic [6:0] seg7;
+logic switch;
+logic dp;
 
 /** declare module(s) below */
 top dut                    // declare an inst of top called "dut" (device under test)
@@ -26,7 +28,9 @@ top dut                    // declare an inst of top called "dut" (device under 
     .left_btn(left_btn),
     .red_led(red_led),
     .blue_led(blue_led),
-    .seg7(seg7)
+    .seg7(seg7),
+    .switch(switch),
+    .dp(dp)
 );
 
 localparam CLK_PERIOD = 10; /** clk period */
@@ -108,10 +112,14 @@ initial begin
     Rbtn_w_debounce;
     Rbtn_w_debounce;
 
+    switch = 1;
+
     Lbtn_w_debounce;
     Lbtn_w_debounce;
     Lbtn_w_debounce;
     Lbtn_w_debounce;
+
+    switch = 0;
 
     #200;
     $finish;            // end simulation, otherwise it runs indefinitely
