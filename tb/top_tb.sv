@@ -3,6 +3,7 @@
 `include "src/debounce.sv"
 `include "src/dutyCycle.sv"
 `include "src/decoder.sv"
+`include "src/pwm.sv"
 `timescale 1ns/1ps         // Set tick to 1ns. Set sim resolution to 1ps.
 
 
@@ -10,7 +11,10 @@ module top_tb;
 
 /** declare tb signals below */
 logic clk_tb;
-logic btn;
+logic right_btn;
+logic left_btn;
+logic red_led;
+logic blue_led;
 logic [6:0] seg7;
 
 /** declare module(s) below */
@@ -18,7 +22,10 @@ top dut                    // declare an inst of top called "dut" (device under 
 (
     /** hook up tb signals to dut signals */
     .clk(clk_tb),           // connect dut's clk wire to clk_tb
-    .btn(btn),
+    .right_btn(right_btn),
+    .left_btn(left_btn),
+    .red_led(red_led),
+    .blue_led(blue_led),
     .seg7(seg7)
 );
 
@@ -31,50 +38,80 @@ initial begin
 end
 
 //Use exercise 1 and 2 tb task to test exercsie 1-4
-task btn_w_debounce();
+task Rbtn_w_debounce();
     begin
         //rapid toggling
         repeat (6) begin
-            btn = 1;
+            right_btn = 1;
             #1000;
 
-            btn = 0;
+            right_btn = 0;
             #1000;
         end
 
-        btn = 1;
+        right_btn = 1;
         #100;
 
         //release 
         repeat (6) begin
-            btn = 0;
+            right_btn = 0;
             #1000;
 
-            btn = 1;
+            right_btn = 1;
             #1000;
         end
 
-        btn = 0;
+        right_btn = 0;
         #100;
     end
 endtask
 
+task Lbtn_w_debounce();
+    begin
+        //rapid toggling
+        repeat (6) begin
+            left_btn = 1;
+            #1000;
+
+            left_btn = 0;
+            #1000;
+        end
+
+        left_btn = 1;
+        #100;
+
+        //release 
+        repeat (6) begin
+            left_btn = 0;
+            #1000;
+
+            left_btn = 1;
+            #1000;
+        end
+
+        left_btn = 0;
+        #100;
+    end
+endtask
 
 initial begin
     /** testbench logic goes below */
     clk_tb = 0;
-    btn = 0;
+    right_btn = 0;
+    left_btn = 0;
 
     #20;
 
     //press the button multiple times to test it
-    btn_w_debounce;
-    btn_w_debounce;
-    btn_w_debounce;
-    btn_w_debounce;
-    btn_w_debounce;
-    btn_w_debounce;
-    btn_w_debounce;
+    Rbtn_w_debounce;
+    Rbtn_w_debounce;
+    Rbtn_w_debounce;
+    Rbtn_w_debounce;
+
+    Lbtn_w_debounce;
+    Lbtn_w_debounce;
+    Lbtn_w_debounce;
+    Lbtn_w_debounce;
 
     #200;
     $finish;            // end simulation, otherwise it runs indefinitely
