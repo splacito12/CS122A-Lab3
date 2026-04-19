@@ -1,3 +1,10 @@
+`include "src/toggle.sv"
+`include "src/debounce.sv"
+`include "src/dutyCycle.sv"
+`include "src/decoder.sv"
+`include "src/pwm.sv"
+
+
 module top (
     /** Input Ports */
     input logic clk,
@@ -78,5 +85,6 @@ decoder decoder_inst(
 );
 
 assign dp = switch;
+
 
 endmodule

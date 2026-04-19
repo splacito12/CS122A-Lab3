@@ -1,2 +1,24 @@
 set_io clk 35
 set_frequency clk 12
+
+#switch
+set_io switch 10
+
+#buttons
+set_io right_btn 6  
+set_io left_btn 9   
+
+#led lights
+set_io blue_led 39
+set_io red_led 40
+
+# 7-seg output wiring goes here
+set_io dp 45        //decimal
+
+set_io seg7[6] 4    //a
+set_io seg7[5] 3    //b
+set_io seg7[4] 47   //c
+set_io seg7[3] 46   //d 
+set_io seg7[2] 44   //e 
+set_io seg7[1] 2    //f 
+set_io seg7[0] 48   //g

@@ -13,7 +13,7 @@ initial led = 0;
 always @(posedge clk) begin
     case(state)
         off: begin
-            if(btn) begin
+            if(!btn) begin
                 led <= ~led;
                 state <= pressed;
             end 
@@ -22,7 +22,7 @@ always @(posedge clk) begin
             end 
         end
         pressed: begin
-            if(!btn) begin
+            if(btn) begin
                 state <= off;
             end
             else begin
