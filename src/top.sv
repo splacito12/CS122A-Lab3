@@ -4,7 +4,8 @@ module top (
     input logic btn,
     
     /** Output Ports */
-    output logic [6:0] seg7
+    output logic [6:0] seg7,
+    output logic led
 );
 
 /** Logic */
@@ -33,6 +34,12 @@ dutyCycle dutyCycle_inst(
 decoder decoder_inst(
     .bcd(duty),
     .seg7(seg7)
+);
+
+pwm pwm_inst(
+    .clk(clk),
+    .duty_cycle(duty),
+    .led(led)
 );
 
 endmodule
