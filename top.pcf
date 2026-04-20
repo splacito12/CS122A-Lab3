@@ -9,7 +9,7 @@ set_io right_btn 6
 set_io left_btn 9   
 
 #led lights
-set_io blue_led 39
+set_io blue_led 41
 set_io red_led 40
 
 # 7-seg output wiring goes here

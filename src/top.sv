@@ -26,6 +26,7 @@ logic [3:0] duty1;   //has to match our bcd
 logic [3:0] duty2;
 logic [3:0] led_val;
 
+
 //instantiate the modules
 debounce debounce_Rinst(
     .clk(clk),
