@@ -9,7 +9,7 @@ logic [3:0] led_bright = 0;
 
 always @(posedge clk) begin 
     if(led_bright >= 10) begin
-        led_bright <= 1;
+        led_bright <= 0;
     end
     else begin
         led_bright <= led_bright + 1;
