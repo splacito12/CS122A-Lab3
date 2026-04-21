@@ -8,8 +8,8 @@ module pwm(
 logic [3:0] led_bright = 0;
 
 always @(posedge clk) begin 
-    if(led_bright == 9) begin
-        led_bright <= 0;
+    if(led_bright >= 10) begin
+        led_bright <= 1;
     end
     else begin
         led_bright <= led_bright + 1;
@@ -18,6 +18,17 @@ end
 
 //this will control the brightness of the LED based off the duty cycle 
 //ex. duty_cycle = 3 so LED is 30% bright
-assign led = (led_bright < duty_cycle);
+//assign led = (led_bright < duty_cycle);
+always @(posedge clk) begin
+    if(duty_cycle == 0) begin
+        led <= 1;
+    end
+    else if (led_bright < duty_cycle) begin
+        led <= 0;
+    end
+    else begin
+        led <= 1;
+    end
+end
 
 endmodule

@@ -14,7 +14,7 @@ always @(posedge clk) begin
     case(state)
         btn_press: begin
             if(btn) begin
-                if(duty_cycle >= 9) begin
+                if(duty_cycle >= 10) begin
                         duty_cycle <= 0;
                 end
                 else begin
